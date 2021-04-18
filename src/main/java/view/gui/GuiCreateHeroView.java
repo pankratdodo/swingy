@@ -28,7 +28,29 @@ public class GuiCreateHeroView implements View {
     }
 
     @Override
-    public void firstPrintMap(Hero hero, List<Enemy> enemies, int map_size) {
+    public Hero printMap(Hero hero, List<Enemy> enemies, int map_size) {
+        return new Hero();
+
+    }
+
+    @Override
+    public void move(Hero hero, List<Enemy> enemies, int map_size){
+
+    }
+
+    @Override
+    public boolean readyToFight(Hero hero, Enemy enemy) {
+        return false;
+    }
+
+    @Override
+    public Hero fight(Hero hero, Enemy enemy, int heroHp, int enemyHp) {
+        return new Hero();
+
+    }
+
+    @Override
+    public void dead() {
 
     }
 }

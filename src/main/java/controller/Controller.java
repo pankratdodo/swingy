@@ -21,6 +21,7 @@ public class Controller {
     private ConsoleCreateHeroView consoleCreateHeroView;
     private Hero hero;
     private final DataBaseService dataBaseService = new DataBaseServiceImpl();
+    private List<Enemy> enemies = new ArrayList<>();
 
     /**
      * Метод выбирает, с каким видом будем работать
@@ -88,26 +89,108 @@ public class Controller {
      */
     public void firstPrintMap()
     {
-        int map_size = hero.getLevel() * 10;
+        int map_size = hero.getLevel() * 5 + 10;
         Random random = new Random();
-        List<Enemy> enemies = new ArrayList<>();
         EnemyFactory factory = new EnemyFactory();
         for (int i = 0; i < map_size / 2; i += 1)
         {
             enemies.add(factory.newEnemy(random.nextInt(4 - 1) + 1, map_size));
         }
         if (view.equals("gui")) {
-            guiCreateHeroView.firstPrintMap(hero, enemies, map_size);
+            guiCreateHeroView.printMap(hero, enemies, map_size);
         } else {
-            consoleCreateHeroView.firstPrintMap(hero, enemies, map_size);
+            consoleCreateHeroView.printMap(hero, enemies, map_size);
         }
+        move(map_size);
     }
 
     /**
      * Метод отвечает за движение героя по карте
      */
-    public void move()
+    public void move(int map_size)
     {
-
+        hero = checkFight(hero);
+        if (view.equals("gui")) {
+            guiCreateHeroView.move(hero, enemies, map_size);
+        } else {
+            consoleCreateHeroView.move(hero, enemies, map_size);
+        }
     }
+
+    /**
+     * Проверяем, возможна ли драка
+     * @param hero герой
+     * @return герой
+     */
+    public Hero checkFight(Hero hero) {
+        for (Enemy enemy : enemies) {
+            if (enemy.getX() == hero.getX() && enemy.getY() == hero.getY()) {
+                if (view.equals("gui")) {
+                    if (guiCreateHeroView.readyToFight(hero, enemy))
+                        return fight(hero, enemy);
+                    else{
+                        hero.setX(hero.getBeforeX());
+                        hero.setY(hero.getBeforeY());
+                    }
+                } else {
+                    if(consoleCreateHeroView.readyToFight(hero, enemy))
+                        return fight(hero, enemy);
+                    else{
+                        hero.setX(hero.getBeforeX());
+                        hero.setY(hero.getBeforeY());
+                    }
+                }
+            }
+        }
+        return hero;
+    }
+
+    /**
+     * Драка
+     * @param hero герой
+     * @param enemy враг
+     * @return герой
+     */
+    public Hero fight(Hero hero, Enemy enemy)
+    {
+        enemies.remove(enemy);
+        int enemyHp;
+        int heroHp;
+        if (hero.getArtefactName().equals("weapon")) {
+            enemyHp = enemy.getActualHp() - hero.getAttack() + enemy.getDefence() - hero.getArtefactAttack();
+            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefence();
+        }
+        else if (hero.getArtefactName().equals("armor")) {
+            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefence() + hero.getArtefactAttack();
+            enemyHp = enemy.getActualHp() - hero.getAttack() + enemy.getDefence();
+        }
+        else {
+            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefence();
+            enemyHp = enemy.getActualHp() - hero.getAttack() + enemy.getDefence();
+        }
+        if (heroHp <= 0)
+        {
+            if (view.equals("gui")) {
+                guiCreateHeroView.dead();
+            } else {
+                consoleCreateHeroView.dead();
+            }
+        }
+        if (enemyHp <= 0) {
+            if (view.equals("gui")) {
+                hero = guiCreateHeroView.fight(hero, enemy, heroHp, enemyHp);
+            } else {
+                hero = consoleCreateHeroView.fight(hero, enemy, heroHp, enemyHp);
+            }
+        }
+        else {
+            enemy.setActualHp(enemyHp);
+            enemies.add(enemy);
+            hero.setX(hero.getBeforeX());
+            hero.setY(hero.getBeforeY());
+        }
+        hero.setActualHp(heroHp);
+        return hero;
+    }
+    //todo: после переноса не работает do you wanna fight
 }

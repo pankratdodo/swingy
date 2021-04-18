@@ -19,7 +19,7 @@ public class DataBaseServiceImpl implements DataBaseService {
             statement = connection.createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS " +
                     "'heroes' ('name' text, 'race' text, 'level' INT, 'exp' INT, " +
-                    "'attack' INT, 'defense' INT, 'actualHp' INT, 'maxHp' INT, 'x' INT, 'y' INT, 'artefactName' text, 'artefactAttack' INT);");
+                    "'attack' INT, 'defense' INT, 'actualHp' INT, 'maxHp' INT, 'x' INT, 'y' INT, 'beforeX' INT, 'beforeY' INT, 'artefactName' text, 'artefactAttack' INT);");
         } catch (SQLException e) {
             throw new SqlRunningException("Cant create connection to database", e, ErrorCode.SQL_RUNNING_ERROR.getCode());
         }
@@ -52,11 +52,13 @@ public class DataBaseServiceImpl implements DataBaseService {
                 heroToAdd.getActualHp() + "," +
                 heroToAdd.getMaxHp() + ", " +
                 heroToAdd.getX() + ", " +
-                heroToAdd.getY() + ",'" +
+                heroToAdd.getY() + ", " +
+                heroToAdd.getBeforeX() + ", " +
+                heroToAdd.getBeforeY() + ",'" +
                 heroToAdd.getArtefactName() + "'," +
                 heroToAdd.getArtefactAttack() + ");";
         try {
-            statement.execute("INSERT INTO 'heroes' ('name', 'race', 'level', 'exp', 'attack', 'defense', 'actualHp', 'maxHP', 'x', 'y', 'artefactName', 'artefactAttack')" + requestAdd);
+            statement.execute("INSERT INTO 'heroes' ('name', 'race', 'level', 'exp', 'attack', 'defense', 'actualHp', 'maxHP', 'x', 'y', 'beforeX', 'beforeY', 'artefactName', 'artefactAttack')" + requestAdd);
         } catch (SQLException e) {
             throw new SqlRunningException("Cant execute query 'insert into heroes ...' into database", e, ErrorCode.SQL_RUNNING_ERROR.getCode());
         }
@@ -72,6 +74,7 @@ public class DataBaseServiceImpl implements DataBaseService {
                     resultSet.getInt("exp"), resultSet.getInt("attack"), resultSet.getInt("defense"),
                     resultSet.getInt("actualHp"), resultSet.getInt("maxHp"),
                     resultSet.getInt("x"), resultSet.getInt("y"),
+                    resultSet.getInt("beforeX"), resultSet.getInt("beforeY"),
                     resultSet.getString("artefactName"), resultSet.getInt("artefactAttack"));
         } catch (SQLException e) {
             throw new SqlRunningException("Cant execute query 'select * from heroes ...' into database", e, ErrorCode.SQL_RUNNING_ERROR.getCode());

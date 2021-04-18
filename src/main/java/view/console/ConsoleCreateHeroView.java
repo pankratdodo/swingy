@@ -5,6 +5,7 @@ import models.hero.Hero;
 import utils.HeroValidator;
 import view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -98,16 +99,12 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public void firstPrintMap(Hero hero, List<Enemy> enemies, int map_size) {
-        for (int i = 0; i < map_size; i += 1)
-        {
-            for (int j = 0; j < map_size; j += 1)
-            {
+    public Hero printMap(Hero hero, List<Enemy> enemies, int map_size) {
+        for (int i = 0; i < map_size; i += 1) {
+            for (int j = 0; j < map_size; j += 1) {
                 int enemyInStr = 0;
-                for (Enemy enemy :enemies)
-                {
-                    if (enemy.getX() == j && enemy.getY() == i)
-                    {
+                for (Enemy enemy : enemies) {
+                    if (enemy.getX() == i && enemy.getY() == j) {
                         switch (enemy.getRace()) {
                             case "Mortis":
                                 System.out.print('M');
@@ -132,5 +129,89 @@ public class ConsoleCreateHeroView implements View {
             }
             System.out.print("\n");
         }
+        return hero;
+    }
+
+    @Override
+    public void move(Hero hero, List<Enemy> enemies, int map_size) {
+        while (true) {
+            System.out.println("Print: 'W' to move North\n'A' to East\t\t'D' to West\n\t'S'to South");
+            Scanner scanner = new Scanner(System.in);
+            String key = scanner.nextLine();
+            switch (key) {
+                case "w":
+                    hero.setBeforeX(hero.getX());
+                    hero.setBeforeY(hero.getY());
+                    hero.setX(hero.getX() - 1);
+                    break;
+                case "a":
+                    hero.setBeforeY(hero.getY());
+                    hero.setBeforeX(hero.getX());
+                    hero.setY(hero.getY() - 1);
+                    break;
+                case "d":
+                    hero.setBeforeY(hero.getY());
+                    hero.setBeforeX(hero.getX());
+                    hero.setY(hero.getY() + 1);
+                    break;
+                case "s":
+                    hero.setBeforeX(hero.getX());
+                    hero.setBeforeY(hero.getY());
+                    hero.setX(hero.getX() + 1);
+                    break;
+                default:
+                    System.err.println("Invalid key");
+            }
+            printMap(hero, enemies, map_size);
+        }
+    }
+
+    @Override
+    public boolean readyToFight(Hero hero, Enemy enemy) {
+        while (true) {
+            System.out.println("Your hero is " + hero.getClas() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefence() +
+                    " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
+            System.out.println("Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
+                    " hp: " + enemy.getActualHp());
+            System.out.println("Do you wanna fight?\nPrint 'y' to fight, 'n' to run");
+            Scanner scanner = new Scanner(System.in);
+            String key = scanner.nextLine();
+            switch (key) {
+                case "y":
+                    return true;
+                case "n":
+                    return false;
+                default:
+                    System.err.println("Invalid key");
+            }
+        }
+    }
+
+    @Override
+    public void dead()
+    {
+        System.out.println("You are dead.");
+        System.exit(0);
+    }
+
+    @Override
+    public Hero fight(Hero hero, Enemy enemy, int heroHp, int enemyHp) {
+        System.out.println("Enemy is dead.");
+        hero.setExp(hero.getExp() + enemy.getMaxHp());
+        System.out.println("Your experience is " + hero.getExp() + " now.");
+        if (!enemy.getArtefactName().equals("no one"))
+        {
+            System.out.println("You got a " + enemy.getArtefactName() + " with power " + enemy.getArtefactAttack());
+            if (enemy.getArtefactName().equals("helm")) {
+                heroHp += hero.getActualHp() + enemy.getArtefactAttack();
+                System.out.println("The helm gave you health " + enemy.getArtefactAttack() + ". Now you have " + hero.getActualHp());
+            }
+            else {
+                hero.setArtefactName(enemy.getArtefactName());
+                hero.setArtefactAttack(enemy.getArtefactAttack());
+            }
+        }
+        //todo: lvl up
+        return hero;
     }
 }

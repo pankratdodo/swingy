@@ -39,6 +39,10 @@ public class Hero {
 
     int y;
 
+    int beforeX;
+
+    int beforeY;
+
     String artefactName;
 
     int artefactAttack;

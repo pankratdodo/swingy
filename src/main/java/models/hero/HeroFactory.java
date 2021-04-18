@@ -12,8 +12,10 @@ public class HeroFactory {
         hero.setActualHp(1000);
         hero.setArtefactName("no one");
         hero.setArtefactAttack(0);
-        hero.setX(5);
-        hero.setY(5);
+        hero.setX(7);
+        hero.setY(7);
+        hero.setBeforeX(7);
+        hero.setBeforeY(7);
         switch (hero.getClas())
         {
             case "Леон":

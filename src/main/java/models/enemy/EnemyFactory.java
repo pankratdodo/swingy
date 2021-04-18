@@ -33,15 +33,23 @@ public class EnemyFactory {
     private Enemy generateCoordinates(Enemy enemy, int map_size)
     {
         Random random = new Random();
-        enemy.setX(random.nextInt(map_size - 1) + 1);
-        enemy.setY(random.nextInt(map_size - 1) + 1);
+        int x = random.nextInt(map_size - 1) + 1;
+        int y = random.nextInt(map_size - 1) + 1;
+        if (x == 5 && y == 5) {
+            enemy.setX(random.nextInt(map_size - 1) + 1);
+            enemy.setY(random.nextInt(map_size - 1) + 1);
+        }
+        else {
+            enemy.setX(x);
+            enemy.setY(y);
+        }
         return enemy;
     }
 
     private Enemy generateArtefact(Enemy enemy)
     {
         Random random = new Random();
-        Artefact artefact = new ArtefactFactory().newArtefact(random.nextInt(30 - 1) + 1);
+        Artefact artefact = new ArtefactFactory().newArtefact(random.nextInt(20 - 1) + 1);
         enemy.setArtefactName(artefact.getName());
         enemy.setArtefactAttack(artefact.getPower());
         return enemy;
