@@ -1,12 +1,17 @@
 package controller;
 
 import database.DataBaseServiceImpl;
-import models.Hero;
+import models.enemy.Enemy;
+import models.enemy.EnemyFactory;
+import models.hero.Hero;
 import lombok.NoArgsConstructor;
+import models.hero.HeroFactory;
 import view.console.ConsoleCreateHeroView;
 import view.gui.GuiCreateHeroView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @NoArgsConstructor
 public class Controller {
@@ -51,6 +56,7 @@ public class Controller {
             createHero();
         else
             chooseHero();
+        firstPrintMap();
     }
 
     /**
@@ -60,7 +66,7 @@ public class Controller {
     {
         hero = view.equals("gui") ? guiCreateHeroView.createHeroName() : consoleCreateHeroView.createHeroName();
         hero = view.equals("gui") ? guiCreateHeroView.createHeroClass(hero) : consoleCreateHeroView.createHeroClass(hero);
-        //фактори на героев
+        hero = new HeroFactory().newHero(hero);
         dataBaseService.addNewHero(hero);
     }
 
@@ -70,11 +76,38 @@ public class Controller {
     public void chooseHero()
     {
         List<String> names = dataBaseService.getHeroesNames();
-        if (names.isEmpty())
-        {
-            System.out.println("Hero not found. Create new one.");
+        String heroName = view.equals("gui") ? guiCreateHeroView.chooseHeroName(names) : consoleCreateHeroView.chooseHeroName(names);
+        if (heroName == null)
             createHero();
+        else
+            hero = dataBaseService.findByName(heroName);
+    }
+
+    /**
+     * Метод рисования карты, героев и врагов
+     */
+    public void firstPrintMap()
+    {
+        int map_size = hero.getLevel() * 10;
+        Random random = new Random();
+        List<Enemy> enemies = new ArrayList<>();
+        EnemyFactory factory = new EnemyFactory();
+        for (int i = 0; i < map_size / 2; i += 1)
+        {
+            enemies.add(factory.newEnemy(random.nextInt(4 - 1) + 1, map_size));
         }
-        System.out.println(names);
+        if (view.equals("gui")) {
+            guiCreateHeroView.firstPrintMap(hero, enemies, map_size);
+        } else {
+            consoleCreateHeroView.firstPrintMap(hero, enemies, map_size);
+        }
+    }
+
+    /**
+     * Метод отвечает за движение героя по карте
+     */
+    public void move()
+    {
+
     }
 }

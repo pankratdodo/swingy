@@ -1,6 +1,6 @@
 package controller;
 
-import models.Hero;
+import models.hero.Hero;
 
 import java.util.List;
 
@@ -12,4 +12,5 @@ public interface DataBaseService {
 
     void addNewHero(Hero heroToAdd);
 
+    Hero findByName(String name);
 }

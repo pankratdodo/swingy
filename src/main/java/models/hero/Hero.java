@@ -1,4 +1,4 @@
-package models;
+package models.hero;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,4 +22,24 @@ public class Hero {
     String name;
 
     String clas;
+
+    int level;
+
+    int attack;
+
+    int exp;
+
+    int defence;
+
+    int actualHp;
+
+    int maxHp;
+
+    int x;
+
+    int y;
+
+    String artefactName;
+
+    int artefactAttack;
 }

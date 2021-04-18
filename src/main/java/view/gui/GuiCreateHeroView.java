@@ -1,7 +1,10 @@
 package view.gui;
 
-import models.Hero;
+import models.enemy.Enemy;
+import models.hero.Hero;
 import view.View;
+
+import java.util.List;
 
 public class GuiCreateHeroView implements View {
     @Override
@@ -20,7 +23,12 @@ public class GuiCreateHeroView implements View {
     }
 
     @Override
-    public Hero chooseHeroName() {
+    public String chooseHeroName(List<String> names) {
         return null;
+    }
+
+    @Override
+    public void firstPrintMap(Hero hero, List<Enemy> enemies, int map_size) {
+
     }
 }
