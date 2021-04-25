@@ -34,8 +34,8 @@ public class GuiCreateHeroView implements View {
     }
 
     @Override
-    public void move(Hero hero, List<Enemy> enemies, int map_size){
-
+    public Hero move(Hero hero, List<Enemy> enemies, int map_size){
+        return new Hero();
     }
 
     @Override
@@ -44,13 +44,22 @@ public class GuiCreateHeroView implements View {
     }
 
     @Override
-    public Hero fight(Hero hero, Enemy enemy, int heroHp, int enemyHp) {
+    public Hero enemyIsDead(Hero hero, Enemy enemy, int heroHp, int enemyHp) {
         return new Hero();
 
     }
 
     @Override
     public void dead() {
+
+    }
+
+    @Override
+    public void lvlUp(Hero hero) {
+    }
+
+    @Override
+    public void win() {
 
     }
 }

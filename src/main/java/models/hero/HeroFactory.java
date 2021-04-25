@@ -12,10 +12,11 @@ public class HeroFactory {
         hero.setActualHp(1000);
         hero.setArtefactName("no one");
         hero.setArtefactAttack(0);
-        hero.setX(7);
-        hero.setY(7);
-        hero.setBeforeX(7);
-        hero.setBeforeY(7);
+        hero.setX((hero.getLevel() * 5 + 10) / 2 - 1);
+        hero.setY((hero.getLevel() * 5 + 10) / 2 - 1);
+        hero.setBeforeX((hero.getLevel() * 5 + 10) / 2 - 1);
+        hero.setBeforeY((hero.getLevel() * 5 + 10) / 2 - 1);
+        hero.setExp(0);
         switch (hero.getClas())
         {
             case "Леон":
@@ -33,7 +34,6 @@ public class HeroFactory {
 
     private Hero createLeon(Hero hero)
     {
-        hero.setExp(200);
         hero.setAttack(100);
         hero.setDefence(60);
         return hero;
@@ -41,7 +41,6 @@ public class HeroFactory {
 
     private Hero createJessie(Hero hero)
     {
-        hero.setExp(200);
         hero.setAttack(120);
         hero.setDefence(55);
         return hero;
@@ -49,7 +48,6 @@ public class HeroFactory {
 
     private Hero createEdgar(Hero hero)
     {
-        hero.setExp(200);
         hero.setAttack(130);
         hero.setDefence(40);
         return hero;
@@ -57,7 +55,6 @@ public class HeroFactory {
 
     private Hero createPoko(Hero hero)
     {
-        hero.setExp(200);
         hero.setAttack(140);
         hero.setDefence(30);
         return hero;

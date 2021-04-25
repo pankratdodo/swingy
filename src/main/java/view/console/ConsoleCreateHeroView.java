@@ -120,6 +120,7 @@ public class ConsoleCreateHeroView implements View {
                                 break;
                         }
                         enemyInStr += 1;
+                        break;
                     }
                 }
                 if (i == hero.getX() && j == hero.getY())
@@ -133,37 +134,35 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public void move(Hero hero, List<Enemy> enemies, int map_size) {
-        while (true) {
-            System.out.println("Print: 'W' to move North\n'A' to East\t\t'D' to West\n\t'S'to South");
-            Scanner scanner = new Scanner(System.in);
-            String key = scanner.nextLine();
-            switch (key) {
-                case "w":
-                    hero.setBeforeX(hero.getX());
-                    hero.setBeforeY(hero.getY());
-                    hero.setX(hero.getX() - 1);
-                    break;
-                case "a":
-                    hero.setBeforeY(hero.getY());
-                    hero.setBeforeX(hero.getX());
-                    hero.setY(hero.getY() - 1);
-                    break;
-                case "d":
-                    hero.setBeforeY(hero.getY());
-                    hero.setBeforeX(hero.getX());
-                    hero.setY(hero.getY() + 1);
-                    break;
-                case "s":
-                    hero.setBeforeX(hero.getX());
-                    hero.setBeforeY(hero.getY());
-                    hero.setX(hero.getX() + 1);
-                    break;
-                default:
-                    System.err.println("Invalid key");
-            }
-            printMap(hero, enemies, map_size);
+    public Hero move(Hero hero, List<Enemy> enemies, int map_size) {
+        System.out.println("Print: 'W' to move North\n'A' to East\t\t'D' to West\n\t'S'to South");
+        Scanner scanner = new Scanner(System.in);
+        String key = scanner.nextLine();
+        switch (key) {
+            case "w":
+                hero.setBeforeX(hero.getX());
+                hero.setBeforeY(hero.getY());
+                hero.setX(hero.getX() - 1);
+                break;
+            case "a":
+                hero.setBeforeY(hero.getY());
+                hero.setBeforeX(hero.getX());
+                hero.setY(hero.getY() - 1);
+                break;
+            case "d":
+                hero.setBeforeY(hero.getY());
+                hero.setBeforeX(hero.getX());
+                hero.setY(hero.getY() + 1);
+                break;
+            case "s":
+                hero.setBeforeX(hero.getX());
+                hero.setBeforeY(hero.getY());
+                hero.setX(hero.getX() + 1);
+                break;
+            default:
+                System.err.println("Invalid key");
         }
+        return hero;
     }
 
     @Override
@@ -195,9 +194,8 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public Hero fight(Hero hero, Enemy enemy, int heroHp, int enemyHp) {
+    public Hero enemyIsDead(Hero hero, Enemy enemy, int heroHp, int enemyHp) {
         System.out.println("Enemy is dead.");
-        hero.setExp(hero.getExp() + enemy.getMaxHp());
         System.out.println("Your experience is " + hero.getExp() + " now.");
         if (!enemy.getArtefactName().equals("no one"))
         {
@@ -211,7 +209,23 @@ public class ConsoleCreateHeroView implements View {
                 hero.setArtefactAttack(enemy.getArtefactAttack());
             }
         }
-        //todo: lvl up
+        hero.setActualHp(heroHp);
         return hero;
+    }
+
+    @Override
+    public void lvlUp(Hero hero) {
+        System.out.println("Your hero is lvl up!");
+        System.out.println("Your hero is " + hero.getClas() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefence() +
+                " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
+    }
+
+    @Override
+    public void win() {
+        System.out.println("You are win! Congratulation!");
+        System.out.println("█░█ ▄▀▀▄ █░░█ . ▄▀▄ █▀▄ █▀▀ . █░░░█ ▀█▀ █▄░█\n" +
+                "▀█▀ █░░█ █░░█ . █▄█ █▀▄ █▀▀ . █▄█▄█ ░█░ █▀██\n" +
+                "░▀░ ░▀▀░ ░▀▀░ . ▀░▀ ▀░▀ ▀▀▀ . ▀▀░▀▀ ▀▀▀ ▀░░▀");
+        System.exit(0);
     }
 }

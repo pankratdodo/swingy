@@ -109,49 +109,76 @@ public class Controller {
      */
     public void move(int map_size)
     {
-        hero = checkFight(hero);
-        if (view.equals("gui")) {
-            guiCreateHeroView.move(hero, enemies, map_size);
-        } else {
-            consoleCreateHeroView.move(hero, enemies, map_size);
+        while (true) {
+            if (view.equals("gui")) {
+                hero = guiCreateHeroView.move(hero, enemies, map_size);
+                checkEndOfMap(map_size);
+                checkFight();
+                guiCreateHeroView.printMap(hero, enemies, map_size);
+            } else {
+                hero = consoleCreateHeroView.move(hero, enemies, map_size);
+                checkEndOfMap(map_size);
+                checkFight();
+                consoleCreateHeroView.printMap(hero, enemies, map_size);
+            }
+            if (hero.getExp() >= 1000) {
+                lvlUp();
+                break;
+            }
+        }
+    }
+
+    /**
+     * Проверяем, не ушли ли мы за границу карты
+     * @param map_size размер карты
+     * @return герой с корректным положением на карте
+     */
+    public void checkEndOfMap(int map_size)
+    {
+        if (hero.getX() >= map_size || hero.getY() >= map_size ||
+                hero.getX() < 0 || hero.getY() < 0) {
+            System.err.println("Impossible to go outside.");
+            hero.setX(hero.getBeforeX());
+            hero.setY(hero.getBeforeY());
         }
     }
 
     /**
      * Проверяем, возможна ли драка
-     * @param hero герой
-     * @return герой
      */
-    public Hero checkFight(Hero hero) {
+    public void checkFight() {
         for (Enemy enemy : enemies) {
             if (enemy.getX() == hero.getX() && enemy.getY() == hero.getY()) {
                 if (view.equals("gui")) {
-                    if (guiCreateHeroView.readyToFight(hero, enemy))
-                        return fight(hero, enemy);
+                    if (guiCreateHeroView.readyToFight(hero, enemy)) {
+                        fight(enemy);
+                        break;
+                    }
                     else{
                         hero.setX(hero.getBeforeX());
                         hero.setY(hero.getBeforeY());
+                        hero.setActualHp(hero.getActualHp() - 50);
                     }
                 } else {
-                    if(consoleCreateHeroView.readyToFight(hero, enemy))
-                        return fight(hero, enemy);
+                    if(consoleCreateHeroView.readyToFight(hero, enemy)) {
+                        fight(enemy);
+                        break;
+                    }
                     else{
                         hero.setX(hero.getBeforeX());
                         hero.setY(hero.getBeforeY());
+                        hero.setActualHp(hero.getActualHp() - 50);
                     }
                 }
             }
         }
-        return hero;
     }
 
     /**
      * Драка
-     * @param hero герой
      * @param enemy враг
-     * @return герой
      */
-    public Hero fight(Hero hero, Enemy enemy)
+    public void fight(Enemy enemy)
     {
         enemies.remove(enemy);
         int enemyHp;
@@ -177,10 +204,11 @@ public class Controller {
             }
         }
         if (enemyHp <= 0) {
+            hero.setExp(hero.getExp() + enemy.getMaxHp());
             if (view.equals("gui")) {
-                hero = guiCreateHeroView.fight(hero, enemy, heroHp, enemyHp);
+                hero = guiCreateHeroView.enemyIsDead(hero, enemy, heroHp, enemyHp);
             } else {
-                hero = consoleCreateHeroView.fight(hero, enemy, heroHp, enemyHp);
+                hero = consoleCreateHeroView.enemyIsDead(hero, enemy, heroHp, enemyHp);
             }
         }
         else {
@@ -190,7 +218,34 @@ public class Controller {
             hero.setY(hero.getBeforeY());
         }
         hero.setActualHp(heroHp);
-        return hero;
     }
-    //todo: после переноса не работает do you wanna fight
+
+    /**
+     * Если нужно увеличить лвл
+     */
+    public void lvlUp()
+    {
+        if (hero.getLevel() == 5) {
+            if (view.equals("gui")) {
+                guiCreateHeroView.win();
+            } else {
+                consoleCreateHeroView.win();
+            }
+        }
+        hero.setLevel(hero.getLevel() + 1);
+        hero.setAttack(hero.getAttack() + 100);
+        hero.setDefence(hero.getDefence() + 40);
+        hero.setX((hero.getLevel() * 5 + 10) / 2 - 1);
+        hero.setY((hero.getLevel() * 5 + 10) / 2 - 1);
+        hero.setBeforeX(hero.getX());
+        hero.setBeforeY(hero.getY());
+        hero.setExp(0);
+        hero.setActualHp(hero.getLevel() * 1000 + (hero.getLevel() - 1) * (hero.getLevel() - 1) * 450);
+        if (view.equals("gui")) {
+            guiCreateHeroView.lvlUp(hero);
+        } else {
+            consoleCreateHeroView.lvlUp(hero);
+        }
+        firstPrintMap();
+    }
 }

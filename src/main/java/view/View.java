@@ -40,7 +40,14 @@ public interface View {
      */
     Hero printMap(Hero hero, List<Enemy> enemies, int map_size);
 
-    void move(Hero hero, List<Enemy> enemies, int map_size);
+    /**
+     * Движения по карте
+     * @param hero герой
+     * @param enemies враги
+     * @param map_size размер карты
+     * @return герой в новом положении
+     */
+    Hero move(Hero hero, List<Enemy> enemies, int map_size);
 
     /**
      * Если герой готов драться
@@ -50,8 +57,29 @@ public interface View {
      */
     boolean readyToFight(Hero hero, Enemy enemy);
 
+    /**
+     * Если враг умер
+     * @param hero герой
+     * @param enemy враг
+     * @param heroHp здоровье героя
+     * @param enemyHp здоровье врага
+     * @return герой в новом положении
+     */
+    Hero enemyIsDead(Hero hero, Enemy enemy, int heroHp, int enemyHp);
 
-    Hero fight(Hero hero, Enemy enemy, int heroHp, int enemyHp);
-
+    /**
+     * Если герой умер
+     */
     void dead();
+
+    /**
+     * Если уровень увеличивается
+     * @param hero герой
+     */
+    void lvlUp(Hero hero);
+
+    /**
+     * Если игрок выиграл
+     */
+    void win();
 }
