@@ -6,9 +6,14 @@ import models.enemy.EnemyFactory;
 import models.hero.Hero;
 import lombok.NoArgsConstructor;
 import models.hero.HeroFactory;
+import utils.ErrorCode;
+import utils.HeroValidator;
+import utils.exceptions.CreateDataException;
+import utils.exceptions.ReadDataErrorException;
 import view.console.ConsoleCreateHeroView;
 import view.gui.GuiCreateHeroView;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,8 +24,9 @@ public class Controller {
     private String view;
     private GuiCreateHeroView guiCreateHeroView;
     private ConsoleCreateHeroView consoleCreateHeroView;
-    private Hero hero;
+    private Hero hero = new Hero();
     private final DataBaseService dataBaseService = new DataBaseServiceImpl();
+    HeroValidator validator = new HeroValidator();
     private List<Enemy> enemies = new ArrayList<>();
 
     /**
@@ -65,7 +71,17 @@ public class Controller {
      */
     public void createHero()
     {
-        hero = view.equals("gui") ? guiCreateHeroView.createHeroName() : consoleCreateHeroView.createHeroName();
+        String name;
+        while (true) {
+            name = view.equals("gui") ? guiCreateHeroView.createHeroName() : consoleCreateHeroView.createHeroName();
+            hero.setName(name);
+            if (!validator.validateHeroConstraintConsole(hero)) {
+                continue;
+            }
+            else {
+                break;
+            }
+        }
         hero = view.equals("gui") ? guiCreateHeroView.createHeroClass(hero) : consoleCreateHeroView.createHeroClass(hero);
         hero = new HeroFactory().newHero(hero);
         dataBaseService.addNewHero(hero);
@@ -90,12 +106,7 @@ public class Controller {
     public void firstPrintMap()
     {
         int map_size = hero.getLevel() * 5 + 10;
-        Random random = new Random();
-        EnemyFactory factory = new EnemyFactory();
-        for (int i = 0; i < map_size / 2; i += 1)
-        {
-            enemies.add(factory.newEnemy(random.nextInt(4 - 1) + 1, map_size));
-        }
+        getEnemies(map_size);
         if (view.equals("gui")) {
             guiCreateHeroView.printMap(hero, enemies, map_size);
         } else {
@@ -109,7 +120,9 @@ public class Controller {
      */
     public void move(int map_size)
     {
+        saveEnemies();
         while (true) {
+            dataBaseService.updateHero(hero);
             if (view.equals("gui")) {
                 hero = guiCreateHeroView.move(hero, enemies, map_size);
                 checkEndOfMap(map_size);
@@ -124,6 +137,51 @@ public class Controller {
             if (hero.getExp() >= 1000) {
                 lvlUp();
                 break;
+            }
+        }
+    }
+
+    /**
+     * Сохраняем врагов
+     */
+    void saveEnemies()
+    {
+        File file = new File("src/main/resources/" + hero.getName());
+        try {
+            if (file.exists() || file.createNewFile()) {
+                    FileOutputStream writeData = new FileOutputStream(file);
+                    ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+
+                    writeStream.writeObject(enemies);
+                    writeStream.flush();
+                    writeStream.close();
+            }
+        } catch (IOException e) {
+            throw new CreateDataException("Cant create file with enemies", ErrorCode.CREATE_DATA_ERROR.getCode());
+        }
+    }
+
+    void getEnemies(int map_size)
+    {
+        File file = new File("src/main/resources/" + hero.getName());
+        if (file.exists())
+        {
+            try {
+                FileInputStream readData = new FileInputStream(file);
+                ObjectInputStream readStream = new ObjectInputStream(readData);
+                enemies = (ArrayList<Enemy>) readStream.readObject();
+                readStream.close();
+            }
+            catch (IOException | ClassNotFoundException e)
+            {
+                throw new ReadDataErrorException("Cant read file with enemies", ErrorCode.READ_DATA_ERROR_EXCEPTION.getCode());
+            }
+        }
+        else {
+            Random random = new Random();
+            EnemyFactory factory = new EnemyFactory();
+            for (int i = 0; i < map_size / 2; i += 1) {
+                enemies.add(factory.newEnemy(random.nextInt(4 - 1) + 1, map_size));
             }
         }
     }
@@ -185,16 +243,20 @@ public class Controller {
         int heroHp;
         if (hero.getArtefactName().equals("weapon")) {
             enemyHp = enemy.getActualHp() - hero.getAttack() + enemy.getDefence() - hero.getArtefactAttack();
-            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefence();
+            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefense();
         }
         else if (hero.getArtefactName().equals("armor")) {
-            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefence() + hero.getArtefactAttack();
+            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefense() + hero.getArtefactAttack();
             enemyHp = enemy.getActualHp() - hero.getAttack() + enemy.getDefence();
         }
         else {
-            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefence();
+            heroHp = hero.getActualHp() - enemy.getAttack() + hero.getDefense();
             enemyHp = enemy.getActualHp() - hero.getAttack() + enemy.getDefence();
         }
+        if (heroHp > hero.getActualHp())
+            heroHp = hero.getActualHp() - 1;
+        if (enemyHp > enemy.getActualHp())
+            enemyHp = enemy.getActualHp() - 1;
         if (heroHp <= 0)
         {
             if (view.equals("gui")) {
@@ -218,6 +280,7 @@ public class Controller {
             hero.setY(hero.getBeforeY());
         }
         hero.setActualHp(heroHp);
+        saveEnemies();
     }
 
     /**
@@ -226,6 +289,7 @@ public class Controller {
     public void lvlUp()
     {
         if (hero.getLevel() == 5) {
+            dataBaseService.deleteHero(hero);
             if (view.equals("gui")) {
                 guiCreateHeroView.win();
             } else {
@@ -233,14 +297,15 @@ public class Controller {
             }
         }
         hero.setLevel(hero.getLevel() + 1);
-        hero.setAttack(hero.getAttack() + 100);
-        hero.setDefence(hero.getDefence() + 40);
+        hero.setAttack(hero.getAttack() + hero.getAttack() / 10);
+        hero.setDefense(hero.getDefense() + + hero.getDefense() / 10);
         hero.setX((hero.getLevel() * 5 + 10) / 2 - 1);
         hero.setY((hero.getLevel() * 5 + 10) / 2 - 1);
         hero.setBeforeX(hero.getX());
         hero.setBeforeY(hero.getY());
         hero.setExp(0);
         hero.setActualHp(hero.getLevel() * 1000 + (hero.getLevel() - 1) * (hero.getLevel() - 1) * 450);
+        new File("src/main/resources/" + hero.getName()).delete();
         if (view.equals("gui")) {
             guiCreateHeroView.lvlUp(hero);
         } else {

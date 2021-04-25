@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class EnemyFactory {
 
-    //todo: поменять цифры у героев и врагов на нормальные
     public Enemy newEnemy(int race, int map_size)
     {
         Enemy enemy = new Enemy();
@@ -57,10 +56,9 @@ public class EnemyFactory {
 
     private Enemy createMortis(Enemy enemy)
     {
-        //больше защиты и меньше атаки героя
         enemy.setRace("Mortis");
-        enemy.setAttack(70);
-        enemy.setDefence(10);
+        enemy.setAttack(3);
+        enemy.setDefence(20);
         enemy.setActualHp(100);
         enemy.setMaxHp(600);
         return enemy;
@@ -69,8 +67,8 @@ public class EnemyFactory {
     private Enemy create8Bit(Enemy enemy)
     {
         enemy.setRace("8Bit");
-        enemy.setAttack(70);
-        enemy.setDefence(10);
+        enemy.setAttack(60);
+        enemy.setDefence(25);
         enemy.setActualHp(100);
         enemy.setMaxHp(600);
         return enemy;
@@ -79,8 +77,8 @@ public class EnemyFactory {
     private Enemy createTik(Enemy enemy)
     {
         enemy.setRace("Tik");
-        enemy.setAttack(70);
-        enemy.setDefence(10);
+        enemy.setAttack(75);
+        enemy.setDefence(0);
         enemy.setActualHp(100);
         enemy.setMaxHp(600);
         return enemy;
@@ -89,8 +87,8 @@ public class EnemyFactory {
     private Enemy createJeckie(Enemy enemy)
     {
         enemy.setRace("Jeckie");
-        enemy.setAttack(70);
-        enemy.setDefence(10);
+        enemy.setAttack(50);
+        enemy.setDefence(50);
         enemy.setActualHp(100);
         enemy.setMaxHp(600);
         return enemy;

@@ -29,7 +29,7 @@ public class Hero {
 
     int exp;
 
-    int defence;
+    int defense;
 
     int actualHp;
 

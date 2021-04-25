@@ -19,14 +19,14 @@ public class HeroFactory {
         hero.setExp(0);
         switch (hero.getClas())
         {
-            case "Леон":
+            case "Leon":
                 return createLeon(hero);
-            case "Джесси":
+            case "Jessie":
                 return createJessie(hero);
-            case "Эдраг":
+            case "Edgar":
                 return createEdgar(hero);
-            case "Поко":
-                return createPoko(hero);
+            case "Poco":
+                return createPoco(hero);
             default:
                 throw new InvalidDataException("Invalid race", ErrorCode.INVALID_DATA_ERROR.getCode());
         }
@@ -35,28 +35,28 @@ public class HeroFactory {
     private Hero createLeon(Hero hero)
     {
         hero.setAttack(100);
-        hero.setDefence(60);
+        hero.setDefense(100);
         return hero;
     }
 
     private Hero createJessie(Hero hero)
     {
-        hero.setAttack(120);
-        hero.setDefence(55);
+        hero.setAttack(80);
+        hero.setDefense(110);
         return hero;
     }
 
     private Hero createEdgar(Hero hero)
     {
-        hero.setAttack(130);
-        hero.setDefence(40);
+        hero.setAttack(155);
+        hero.setDefense(40);
         return hero;
     }
 
-    private Hero createPoko(Hero hero)
+    private Hero createPoco(Hero hero)
     {
-        hero.setAttack(140);
-        hero.setDefence(30);
+        hero.setAttack(60);
+        hero.setDefense(155);
         return hero;
     }
 }

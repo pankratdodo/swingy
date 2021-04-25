@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DataBaseServiceImpl implements DataBaseService {
     private static Statement statement;
-    private static final String connectionString = "jdbc:sqlite:".concat(System.getProperty("user.dir")).concat("/saved_heroes.db");
+    private static final String connectionString = "jdbc:sqlite:".concat(System.getProperty("user.dir")).concat("/src/main/resources/saved_heroes.db");
 
     public void establishConnection() {
         try {
@@ -48,7 +48,7 @@ public class DataBaseServiceImpl implements DataBaseService {
                 heroToAdd.getLevel() + "," +
                 heroToAdd.getExp() + "," +
                 heroToAdd.getAttack() + "," +
-                heroToAdd.getDefence() + "," +
+                heroToAdd.getDefense() + "," +
                 heroToAdd.getActualHp() + "," +
                 heroToAdd.getMaxHp() + ", " +
                 heroToAdd.getX() + ", " +
@@ -78,6 +78,40 @@ public class DataBaseServiceImpl implements DataBaseService {
                     resultSet.getString("artefactName"), resultSet.getInt("artefactAttack"));
         } catch (SQLException e) {
             throw new SqlRunningException("Cant execute query 'select * from heroes ...' into database", e, ErrorCode.SQL_RUNNING_ERROR.getCode());
+        }
+    }
+
+    @Override
+    public void updateHero(Hero hero) {
+        try {
+            String result = "level = " + hero.getLevel() +
+                    ", exp = " + hero.getExp() +
+                    ", attack = " + hero.getAttack() +
+                    ", defense = " + hero.getDefense() +
+                    ", actualHp = " + hero.getActualHp() +
+                    ", maxHp = " + hero.getMaxHp() +
+                    ", x = " + hero.getX() +
+                    ", y = " + hero.getY() +
+                    ", beforeX = " + hero.getBeforeX() +
+                    ", beforeY = " + hero.getBeforeY() +
+                    ", artefactName = '" + hero.getArtefactName() +
+                    "' , artefactAttack = " + hero.getArtefactAttack();
+            statement.executeUpdate("UPDATE 'heroes' SET " + result + "  WHERE name = '" + hero.getName() + "';");
+        }
+        catch (SQLException e)
+        {
+            throw new SqlRunningException("Cant execute query 'update heroes set ...' into database", e, ErrorCode.SQL_RUNNING_ERROR.getCode());
+        }
+    }
+
+    @Override
+    public void deleteHero(Hero hero) {
+        try {
+            statement.executeQuery("DELETE FROM 'heroes' WHERE name = '" + hero.getName() + "'");
+        }
+        catch (SQLException e)
+        {
+            throw new SqlRunningException("Cant execute query 'delete from heroes ...' into database", e, ErrorCode.SQL_RUNNING_ERROR.getCode());
         }
     }
 }

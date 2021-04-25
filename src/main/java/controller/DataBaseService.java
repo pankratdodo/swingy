@@ -13,4 +13,8 @@ public interface DataBaseService {
     void addNewHero(Hero heroToAdd);
 
     Hero findByName(String name);
+
+    void updateHero(Hero hero);
+
+    void deleteHero(Hero hero);
 }

@@ -2,15 +2,12 @@ package view.console;
 
 import models.enemy.Enemy;
 import models.hero.Hero;
-import utils.HeroValidator;
 import view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleCreateHeroView implements View {
-    HeroValidator validator = new HeroValidator();
 
     @Override
     public boolean oldOrNewHero()
@@ -34,24 +31,21 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public Hero createHeroName() {
-        while (true) {
-            System.out.println("Print name of your hero:\n");
-            Scanner in = new Scanner(System.in);
-            Hero hero = new Hero();
-            hero.setName(in.nextLine());
-            if (!validator.validateHeroConstraintConsole(hero)) {
-                continue;
-            }
-            else
-                return hero;
-        }
+    public String createHeroName() {
+        System.out.println("Print name of your hero:\n");
+        Scanner in = new Scanner(System.in);
+        return in.nextLine();
+    }
+
+    @Override
+    public void alreadyExist() {
+        System.err.println("Hero with this name is already exist.\nChoose another name.");
     }
 
     @Override
     public Hero createHeroClass(Hero hero) {
         System.out.println("Choose class of " + hero.getName());
-        System.out.println("0 - to exit\n1 - Леон\n2 - Джесси\n3 - Эдраг\n4 - Поко");
+        System.out.println("0 - to exit\n1 - Leon\n2 - Jessie\n3 - Edgar\n4 - Poco");
         while (true) {
             Scanner in = new Scanner(System.in);
             String res = in.nextLine();
@@ -59,16 +53,16 @@ public class ConsoleCreateHeroView implements View {
                 case "0":
                     System.exit(0);
                 case "1":
-                    hero.setClas("Леон");
+                    hero.setClas("Leon");
                     break;
                 case "2":
-                    hero.setClas("Джесси");
+                    hero.setClas("Jessie");
                     break;
                 case "3":
-                    hero.setClas("Эдраг");
+                    hero.setClas("Edgar");
                     break;
                 case "4":
-                    hero.setClas("Поко");
+                    hero.setClas("Poco");
                     break;
                 default:
                     System.err.println("Choose number 0 - 4.");
@@ -168,7 +162,7 @@ public class ConsoleCreateHeroView implements View {
     @Override
     public boolean readyToFight(Hero hero, Enemy enemy) {
         while (true) {
-            System.out.println("Your hero is " + hero.getClas() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefence() +
+            System.out.println("Your hero is " + hero.getClas() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
                     " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
             System.out.println("Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
                     " hp: " + enemy.getActualHp());
@@ -216,7 +210,7 @@ public class ConsoleCreateHeroView implements View {
     @Override
     public void lvlUp(Hero hero) {
         System.out.println("Your hero is lvl up!");
-        System.out.println("Your hero is " + hero.getClas() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefence() +
+        System.out.println("Your hero is " + hero.getClas() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
                 " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
     }
 

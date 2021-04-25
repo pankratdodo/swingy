@@ -10,7 +10,9 @@ import lombok.experimental.FieldDefaults;
 public enum  ErrorCode {
 
     INVALID_DATA_ERROR(900),
-    SQL_RUNNING_ERROR(901);
+    SQL_RUNNING_ERROR(901),
+    CREATE_DATA_ERROR(902),
+    READ_DATA_ERROR_EXCEPTION(903);
 
     @Getter
     int code;

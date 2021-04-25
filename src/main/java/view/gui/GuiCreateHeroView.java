@@ -13,8 +13,13 @@ public class GuiCreateHeroView implements View {
     }
 
     @Override
-    public Hero createHeroName() {
+    public String createHeroName() {
         return null;
+    }
+
+    @Override
+    public void alreadyExist() {
+
     }
 
     @Override

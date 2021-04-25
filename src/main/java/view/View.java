@@ -14,9 +14,14 @@ public interface View {
 
     /**
      * Создание героя
-     * @return герой
+     * @return имя героя
      */
-    Hero createHeroName();
+    String createHeroName();
+
+    /**
+     * Выводит ошибку, что такой игрок существует
+     */
+    void alreadyExist();
 
     /**
      * Создание класса героя
