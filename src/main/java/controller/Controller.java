@@ -75,7 +75,7 @@ public class Controller {
         while (true) {
             name = view.equals("gui") ? guiCreateHeroView.createHeroName() : consoleCreateHeroView.createHeroName();
             hero.setName(name);
-            if (!validator.validateHeroConstraintConsole(hero)) {
+            if (!validator.validateHeroConstraintConsole(hero, view)) {
                 continue;
             }
             else {
@@ -257,14 +257,20 @@ public class Controller {
             heroHp = hero.getActualHp() - 1;
         if (enemyHp > enemy.getActualHp())
             enemyHp = enemy.getActualHp() - 1;
+        //сдох герой
         if (heroHp <= 0)
         {
+            //удаляем его из бд и из сохранений
+            dataBaseService.deleteHero(hero);
+            new File("src/main/resources/" + hero.getName()).delete();
             if (view.equals("gui")) {
                 guiCreateHeroView.dead();
             } else {
                 consoleCreateHeroView.dead();
             }
+            System.exit(0);
         }
+        //сдох враг
         if (enemyHp <= 0) {
             hero.setExp(hero.getExp() + enemy.getMaxHp());
             if (view.equals("gui")) {
@@ -289,7 +295,9 @@ public class Controller {
     public void lvlUp()
     {
         if (hero.getLevel() == 5) {
+            //игра окончена, все удаляем
             dataBaseService.deleteHero(hero);
+            new File("src/main/resources/" + hero.getName()).delete();
             if (view.equals("gui")) {
                 guiCreateHeroView.win();
             } else {

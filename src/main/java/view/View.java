@@ -19,11 +19,6 @@ public interface View {
     String createHeroName();
 
     /**
-     * Выводит ошибку, что такой игрок существует
-     */
-    void alreadyExist();
-
-    /**
      * Создание класса героя
      * @param hero герой
      * @return герой с классом

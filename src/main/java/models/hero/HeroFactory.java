@@ -35,14 +35,14 @@ public class HeroFactory {
     private Hero createLeon(Hero hero)
     {
         hero.setAttack(100);
-        hero.setDefense(100);
+        hero.setDefense(65);
         return hero;
     }
 
     private Hero createJessie(Hero hero)
     {
         hero.setAttack(80);
-        hero.setDefense(110);
+        hero.setDefense(70);
         return hero;
     }
 
@@ -56,7 +56,7 @@ public class HeroFactory {
     private Hero createPoco(Hero hero)
     {
         hero.setAttack(60);
-        hero.setDefense(155);
+        hero.setDefense(80);
         return hero;
     }
 }

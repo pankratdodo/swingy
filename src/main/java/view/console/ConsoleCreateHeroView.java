@@ -38,11 +38,6 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public void alreadyExist() {
-        System.err.println("Hero with this name is already exist.\nChoose another name.");
-    }
-
-    @Override
     public Hero createHeroClass(Hero hero) {
         System.out.println("Choose class of " + hero.getName());
         System.out.println("0 - to exit\n1 - Leon\n2 - Jessie\n3 - Edgar\n4 - Poco");
@@ -166,7 +161,7 @@ public class ConsoleCreateHeroView implements View {
                     " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
             System.out.println("Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
                     " hp: " + enemy.getActualHp());
-            System.out.println("Do you wanna fight?\nPrint 'y' to fight, 'n' to run");
+            System.out.println("Do you wanna fight?\nIf you run away, you will take 50 points of damage\n Print 'y' to fight, 'n' to run");
             Scanner scanner = new Scanner(System.in);
             String key = scanner.nextLine();
             switch (key) {
@@ -184,7 +179,6 @@ public class ConsoleCreateHeroView implements View {
     public void dead()
     {
         System.out.println("You are dead.");
-        System.exit(0);
     }
 
     @Override

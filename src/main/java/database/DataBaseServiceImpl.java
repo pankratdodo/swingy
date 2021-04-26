@@ -107,7 +107,7 @@ public class DataBaseServiceImpl implements DataBaseService {
     @Override
     public void deleteHero(Hero hero) {
         try {
-            statement.executeQuery("DELETE FROM 'heroes' WHERE name = '" + hero.getName() + "'");
+            statement.executeUpdate("DELETE FROM 'heroes' WHERE name = '" + hero.getName() + "'");
         }
         catch (SQLException e)
         {
