@@ -44,7 +44,7 @@ public class DataBaseServiceImpl implements DataBaseService {
     public void addNewHero(Hero heroToAdd) {
         String requestAdd = " VALUES ('" +
                 heroToAdd.getName() + "', '" +
-                heroToAdd.getClas() + "', " +
+                heroToAdd.getRace() + "', " +
                 heroToAdd.getLevel() + "," +
                 heroToAdd.getExp() + "," +
                 heroToAdd.getAttack() + "," +

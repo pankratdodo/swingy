@@ -21,7 +21,8 @@ public class Hero {
     @Pattern(regexp = "\\w+", message = "Name can have only letters, numbers and '_' symbol")
     String name;
 
-    String clas;
+    @NotNull(message = "Race cannot be null")
+    String race;
 
     int level;
 

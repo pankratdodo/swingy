@@ -17,7 +17,7 @@ public class HeroFactory {
         hero.setBeforeX((hero.getLevel() * 5 + 10) / 2 - 1);
         hero.setBeforeY((hero.getLevel() * 5 + 10) / 2 - 1);
         hero.setExp(0);
-        switch (hero.getClas())
+        switch (hero.getRace())
         {
             case "Leon":
                 return createLeon(hero);

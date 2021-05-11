@@ -126,7 +126,7 @@ public class GuiCreateHeroView  implements View {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     buttonPressed.set(true);
-                    hero.setClas(comboBox.getItemAt(comboBox.getSelectedIndex()));
+                    hero.setRace(comboBox.getItemAt(comboBox.getSelectedIndex()));
                 }
             });
             container.add(buttOld);
@@ -283,7 +283,7 @@ public class GuiCreateHeroView  implements View {
 
     @Override
     public boolean readyToFight(Hero hero, Enemy enemy) {
-        int n = JOptionPane.showConfirmDialog(frame, "Your hero is " + hero.getClas() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() + "" +
+        int n = JOptionPane.showConfirmDialog(frame, "Your hero is " + hero.getRace() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() + "" +
                 "hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack() + "\n" + "Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
                 " hp: " + enemy.getActualHp() + "\n" + "Do you wanna fight?\nIf you run away, you will take 50 points of damage\n",
                 "Do you wanna fight?", JOptionPane.YES_NO_OPTION);
@@ -325,7 +325,7 @@ public class GuiCreateHeroView  implements View {
 
     @Override
     public void lvlUp(Hero hero) {
-        JOptionPane.showMessageDialog(frame, "Your hero is " + hero.getClas() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
+        JOptionPane.showMessageDialog(frame, "Your hero is " + hero.getRace() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
                         " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack(),
                 "Your hero is lvl up!", JOptionPane.INFORMATION_MESSAGE);
     }

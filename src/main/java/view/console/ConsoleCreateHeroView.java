@@ -48,16 +48,16 @@ public class ConsoleCreateHeroView implements View {
                 case "0":
                     System.exit(0);
                 case "1":
-                    hero.setClas("Leon");
+                    hero.setRace("Leon");
                     break;
                 case "2":
-                    hero.setClas("Jessie");
+                    hero.setRace("Jessie");
                     break;
                 case "3":
-                    hero.setClas("Edgar");
+                    hero.setRace("Edgar");
                     break;
                 case "4":
-                    hero.setClas("Poco");
+                    hero.setRace("Poco");
                     break;
                 default:
                     System.err.println("Choose number 0 - 4.");
@@ -156,7 +156,7 @@ public class ConsoleCreateHeroView implements View {
     @Override
     public boolean readyToFight(Hero hero, Enemy enemy) {
         while (true) {
-            System.out.println("Your hero is " + hero.getClas() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
+            System.out.println("Your hero is " + hero.getRace() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
                     " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
             System.out.println("Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
                     " hp: " + enemy.getActualHp());
@@ -203,7 +203,7 @@ public class ConsoleCreateHeroView implements View {
     @Override
     public void lvlUp(Hero hero) {
         System.out.println("Your hero is lvl up!");
-        System.out.println("Your hero is " + hero.getClas() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
+        System.out.println("Your hero is " + hero.getRace() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
                 " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
     }
 
