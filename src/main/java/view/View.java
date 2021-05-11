@@ -10,7 +10,7 @@ public interface View {
      * Выбираем сделать ли новго героя или выбрать среди старых
      * @return false - старый, true - новый
      */
-    boolean oldOrNewHero();
+    boolean wannaNewHero();
 
     /**
      * Создание героя
@@ -38,16 +38,14 @@ public interface View {
      * @param enemies враги
      * @param map_size размер карты
      */
-    Hero printMap(Hero hero, List<Enemy> enemies, int map_size);
+    void printMap(Hero hero, List<Enemy> enemies, int map_size);
 
     /**
      * Движения по карте
      * @param hero герой
-     * @param enemies враги
-     * @param map_size размер карты
      * @return герой в новом положении
      */
-    Hero move(Hero hero, List<Enemy> enemies, int map_size);
+    Hero move(Hero hero);
 
     /**
      * Если герой готов драться
@@ -82,4 +80,9 @@ public interface View {
      * Если игрок выиграл
      */
     void win();
+
+    /**
+     * Печатает сообщение, что нельзя выйти за край карты
+     */
+    void printEndOfMap();
 }

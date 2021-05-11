@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class ConsoleCreateHeroView implements View {
 
     @Override
-    public boolean oldOrNewHero()
+    public boolean wannaNewHero()
     {
         System.out.println("Print:\n0 - to exit\n1 - to choose old hero\n2 - to create new hero\n");
         Scanner in = new Scanner(System.in);
@@ -88,7 +88,7 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public Hero printMap(Hero hero, List<Enemy> enemies, int map_size) {
+    public void printMap(Hero hero, List<Enemy> enemies, int map_size) {
         for (int i = 0; i < map_size; i += 1) {
             for (int j = 0; j < map_size; j += 1) {
                 int enemyInStr = 0;
@@ -119,11 +119,10 @@ public class ConsoleCreateHeroView implements View {
             }
             System.out.print("\n");
         }
-        return hero;
     }
 
     @Override
-    public Hero move(Hero hero, List<Enemy> enemies, int map_size) {
+    public Hero move(Hero hero) {
         System.out.println("Print: 'W' to move North\n'A' to East\t\t'D' to West\n\t'S'to South");
         Scanner scanner = new Scanner(System.in);
         String key = scanner.nextLine();
@@ -214,6 +213,10 @@ public class ConsoleCreateHeroView implements View {
         System.out.println("█░█ ▄▀▀▄ █░░█ . ▄▀▄ █▀▄ █▀▀ . █░░░█ ▀█▀ █▄░█\n" +
                 "▀█▀ █░░█ █░░█ . █▄█ █▀▄ █▀▀ . █▄█▄█ ░█░ █▀██\n" +
                 "░▀░ ░▀▀░ ░▀▀░ . ▀░▀ ▀░▀ ▀▀▀ . ▀▀░▀▀ ▀▀▀ ▀░░▀");
-        System.exit(0);
+    }
+
+    @Override
+    public void printEndOfMap() {
+        System.err.println("Impossible to go outside.");
     }
 }

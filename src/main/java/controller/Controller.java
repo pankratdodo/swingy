@@ -58,8 +58,8 @@ public class Controller {
     public void oldOrNewHero()
     {
         dataBaseService.establishConnection();
-        if (view.equals("gui") && guiCreateHeroView.oldOrNewHero() ||
-                view.equals("console") && consoleCreateHeroView.oldOrNewHero())
+        if (view.equals("gui") && guiCreateHeroView.wannaNewHero() ||
+                view.equals("console") && consoleCreateHeroView.wannaNewHero())
             createHero();
         else
             chooseHero();
@@ -124,12 +124,12 @@ public class Controller {
         while (true) {
             dataBaseService.updateHero(hero);
             if (view.equals("gui")) {
-                hero = guiCreateHeroView.move(hero, enemies, map_size);
+                hero = guiCreateHeroView.move(hero);
                 checkEndOfMap(map_size);
                 checkFight();
                 guiCreateHeroView.printMap(hero, enemies, map_size);
             } else {
-                hero = consoleCreateHeroView.move(hero, enemies, map_size);
+                hero = consoleCreateHeroView.move(hero);
                 checkEndOfMap(map_size);
                 checkFight();
                 consoleCreateHeroView.printMap(hero, enemies, map_size);
@@ -174,7 +174,7 @@ public class Controller {
             }
             catch (IOException | ClassNotFoundException e)
             {
-                throw new ReadDataErrorException("Cant read file with enemies", ErrorCode.READ_DATA_ERROR_EXCEPTION.getCode());
+                throw new ReadDataErrorException("Cant read file with enemies", ErrorCode.READ_DATA_ERROR.getCode());
             }
         }
         else {
@@ -195,7 +195,11 @@ public class Controller {
     {
         if (hero.getX() >= map_size || hero.getY() >= map_size ||
                 hero.getX() < 0 || hero.getY() < 0) {
-            System.err.println("Impossible to go outside.");
+            if (view.equals("gui")) {
+                guiCreateHeroView.printEndOfMap();
+            } else {
+                consoleCreateHeroView.printEndOfMap();
+            }
             hero.setX(hero.getBeforeX());
             hero.setY(hero.getBeforeY());
         }
@@ -294,16 +298,8 @@ public class Controller {
      */
     public void lvlUp()
     {
-        if (hero.getLevel() == 5) {
-            //игра окончена, все удаляем
-            dataBaseService.deleteHero(hero);
-            new File("src/main/resources/" + hero.getName()).delete();
-            if (view.equals("gui")) {
-                guiCreateHeroView.win();
-            } else {
-                consoleCreateHeroView.win();
-            }
-        }
+        if (hero.getLevel() == 5)
+            win();
         hero.setLevel(hero.getLevel() + 1);
         hero.setAttack(hero.getAttack() + hero.getAttack() / 10);
         hero.setDefense(hero.getDefense() + + hero.getDefense() / 10);
@@ -320,5 +316,21 @@ public class Controller {
             consoleCreateHeroView.lvlUp(hero);
         }
         firstPrintMap();
+    }
+
+    /**
+     * Игрок победил
+     */
+    public void win()
+    {
+        //игра окончена, все удаляем
+        dataBaseService.deleteHero(hero);
+        new File("src/main/resources/" + hero.getName()).delete();
+        if (view.equals("gui")) {
+            guiCreateHeroView.win();
+        } else {
+            consoleCreateHeroView.win();
+        }
+        System.exit(0);
     }
 }
