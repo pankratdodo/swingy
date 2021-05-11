@@ -9,6 +9,7 @@ import models.hero.HeroFactory;
 import utils.ErrorCode;
 import utils.HeroValidator;
 import utils.exceptions.CreateDataException;
+import utils.exceptions.InvalidDataException;
 import utils.exceptions.ReadDataErrorException;
 import view.console.ConsoleCreateHeroView;
 import view.gui.GuiCreateHeroView;
@@ -33,21 +34,21 @@ public class Controller {
      * Метод выбирает, с каким видом будем работать
      * @param arg аргумент, который подал пользователь
      */
-    public void chooseView(String arg)
+    public void chooseView(String[] arg)
     {
-        if (arg.equals("gui"))
+        if (arg.length != 0 && arg[0].equals("gui"))
         {
             view = "gui";
             guiCreateHeroView = new GuiCreateHeroView();
         }
-        else if (arg.equals("console"))
+        else if (arg.length != 0 && arg[0].equals("console"))
         {
             view = "console";
             consoleCreateHeroView = new ConsoleCreateHeroView();
         }
         else {
-            System.err.println("You have to use only one of arguments: console or gui.");
-            System.exit(-1);
+            throw new InvalidDataException("You have to use only one of arguments: console or gui.",
+                    ErrorCode.INVALID_DATA_ERROR.getCode());
         }
         oldOrNewHero();
     }

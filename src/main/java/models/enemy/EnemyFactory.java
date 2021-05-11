@@ -59,8 +59,8 @@ public class EnemyFactory {
         enemy.setRace("Mortis");
         enemy.setAttack(3);
         enemy.setDefence(20);
-        enemy.setActualHp(100);
-        enemy.setMaxHp(600);
+        enemy.setActualHp(500);
+        enemy.setMaxHp(500);
         return enemy;
     }
 
@@ -69,8 +69,8 @@ public class EnemyFactory {
         enemy.setRace("8Bit");
         enemy.setAttack(60);
         enemy.setDefence(25);
-        enemy.setActualHp(100);
-        enemy.setMaxHp(600);
+        enemy.setActualHp(500);
+        enemy.setMaxHp(500);
         return enemy;
     }
 
@@ -79,8 +79,8 @@ public class EnemyFactory {
         enemy.setRace("Tik");
         enemy.setAttack(75);
         enemy.setDefence(0);
-        enemy.setActualHp(100);
-        enemy.setMaxHp(600);
+        enemy.setActualHp(500);
+        enemy.setMaxHp(500);
         return enemy;
     }
 
@@ -89,8 +89,8 @@ public class EnemyFactory {
         enemy.setRace("Jeckie");
         enemy.setAttack(50);
         enemy.setDefence(50);
-        enemy.setActualHp(100);
-        enemy.setMaxHp(600);
+        enemy.setActualHp(500);
+        enemy.setMaxHp(500);
         return enemy;
     }
 }
