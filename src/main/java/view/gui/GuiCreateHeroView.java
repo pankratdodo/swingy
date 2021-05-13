@@ -29,6 +29,7 @@ public class GuiCreateHeroView  implements View {
     private boolean isRight = false;
     private boolean isDown = false;
     private boolean isUp = false;
+    private boolean isInfo = false;
 
 
     private JFrame createFrame()
@@ -200,26 +201,8 @@ public class GuiCreateHeroView  implements View {
         container.setLayout(new GridLayout(0, 1, 2, 2));
         container.add(new GuiPanel());
         frame.setSize(maxWinSizeX, maxWinSizeY);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-//        container.setLayout(new GridBagLayout());
-//        container.add(new GuiPanel(), createConstraints(0, 0, 2, 4, GridBagConstraints.CENTER, GridBagConstraints.BOTH));
-//        AtomicBoolean buttonPressed = new AtomicBoolean(false);
-//        while (!buttonPressed.get()) {
-//            sleep();
-//            buttOld.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    buttonPressed.set(true);
-//                }
-//            });
-//            JPanel panel = new JPanel();
-//            panel.setLayout(new GridLayout(10, 0, 1, 1));
-//            panel.add(buttOld);
-//            container.add(panel, createConstraints(0, 1, 1, 1, GridBagConstraints.LINE_END, GridBagConstraints.NONE));
-//        }
-//        if (buttonPressed.get())
-//            watchInfo(hero);
-//        container.add(watchInfo(hero), createConstraints(0, 1, 1, 1, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.NONE));
     }
 
     @Override
@@ -228,6 +211,7 @@ public class GuiCreateHeroView  implements View {
         isDown = false;
         isLeft = false;
         isRight = false;
+        isInfo = false;
         sleep();
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -244,6 +228,9 @@ public class GuiCreateHeroView  implements View {
                         break;
                     case KeyEvent.VK_RIGHT:
                         isRight = true;
+                        break;
+                    case KeyEvent.VK_I:
+                        isInfo = true;
                         break;
                     default:
                 }
@@ -263,6 +250,9 @@ public class GuiCreateHeroView  implements View {
                         break;
                     case KeyEvent.VK_RIGHT:
                         isRight = false;
+                        break;
+                    case KeyEvent.VK_I:
+                        isInfo = false;
                         break;
                     default:
                 }
@@ -297,6 +287,10 @@ public class GuiCreateHeroView  implements View {
             hero.setBeforeY(hero.getY());
             hero.setBeforeX(hero.getX());
             hero.setX(hero.getX() + 1);
+        }
+        if (isInfo)
+        {
+            watchInfo(hero);
         }
     }
 
@@ -377,47 +371,16 @@ public class GuiCreateHeroView  implements View {
         }
     }
 
-//    /**
-//     * Создание меню
-//     * @param hero герой
-//     * @return панель с меню
-//     */
-//    private void watchInfo(Hero hero)
-//    {
-//        JOptionPane.showMessageDialog(frame, "Your info: \nHero name: " + hero.getName(),
-//                "Info", JOptionPane.INFORMATION_MESSAGE);
-
-//        JPanel p = new JPanel();
-//        p.setLayout(new GridLayout(10, 0, 1, 1));
-//        p.add(new JLabel("Your info:"));
-//        p.add(new JLabel("Hero name: " + hero.getName()));
-//        p.add(new JLabel("Hero race: " + hero.getRace()));
-//        p.add(new JLabel("Hero attack: " + hero.getAttack()));
-//        p.add(new JLabel("Hero defence: " + hero.getDefense()));
-//        p.add(new JLabel("Hero hp: " + hero.getActualHp()));
-//        p.add(new JLabel("Hero artefactPower: " + hero.getArtefactAttack()));
-//        p.add(new JLabel("x: " + hero.getX()));
-//        p.add(new JLabel("y: " + hero.getY()));
-//        p.add(new JLabel("Press ↓ → ← ↑ to move "));
-//        return p;
-//    }
-
-//    /**
-//     * Создание констрейнта для красивого рисунка
-//     * @return констрейнт
-//     */
-//    private GridBagConstraints createConstraints(int x, int y, int w, int h, int anchor, int fill)
-//    {
-//        GridBagConstraints constraints = new GridBagConstraints();
-//        constraints.gridx = x;
-//        constraints.gridy = y;
-//        constraints.gridwidth = w;
-//        constraints.gridheight = h;
-//        constraints.weightx = .1;
-//        constraints.weighty = .1;
-//        constraints.anchor = anchor;
-//        constraints.fill = fill;
-//        constraints.ipady = 100;
-//        return constraints;
-//    }
+    /**
+     * Посмотреть меню
+     * @param hero герой
+     */
+    private void watchInfo(Hero hero)
+    {
+        JOptionPane.showMessageDialog(frame, "Your info: \nHero name: " + hero.getName() + "\nHero race: " + hero.getRace()
+                + "\nHero attack: " + hero.getAttack() + "\nHero defence: " + hero.getDefense() + "\nHero hp: " + hero.getActualHp()
+                + "\nHero artefactPower: " + hero.getArtefactAttack() + "\nx: " + hero.getX() + "\ny: " + hero.getY() + "\nPress ↓ → ← ↑ to move "
+                + "\nPress i to info",
+                "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
 }
