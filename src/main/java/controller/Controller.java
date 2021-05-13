@@ -182,7 +182,7 @@ public class Controller {
             Random random = new Random();
             EnemyFactory factory = new EnemyFactory();
             for (int i = 0; i < map_size / 2; i += 1) {
-                enemies.add(factory.newEnemy(random.nextInt(4 - 1) + 1, map_size));
+                enemies.add(factory.newEnemy(random.nextInt(5 - 1) + 1, map_size));
             }
         }
     }
@@ -277,7 +277,7 @@ public class Controller {
         }
         //сдох враг
         if (enemyHp <= 0) {
-            hero.setExp(hero.getExp() + enemy.getMaxHp());
+            hero.setExp(hero.getExp() + enemy.getMaxHp() * 2);
             if (view.equals("gui")) {
                 hero = guiCreateHeroView.enemyIsDead(hero, enemy, heroHp, enemyHp);
             } else {
@@ -328,9 +328,9 @@ public class Controller {
         dataBaseService.deleteHero(hero);
         new File("src/main/resources/" + hero.getName()).delete();
         if (view.equals("gui")) {
-            guiCreateHeroView.win();
+            guiCreateHeroView.win(hero);
         } else {
-            consoleCreateHeroView.win();
+            consoleCreateHeroView.win(hero);
         }
         System.exit(0);
     }

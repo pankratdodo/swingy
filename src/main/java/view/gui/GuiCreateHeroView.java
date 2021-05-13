@@ -184,12 +184,13 @@ public class GuiCreateHeroView  implements View {
                         g2d.drawRect(sq_size * j, sq_size * i, sq_size, sq_size);
                     }
                 }
-                //todo: сделать конкатинацию на нужную картинку
-                Image image = getToolkit().getImage(System.getProperty("user.dir").concat("/src/main/resources/").concat("human.jpg"));
+                //рисует героя
+                Image image = getToolkit().getImage(System.getProperty("user.dir").concat("/src/main/resources/heroes/").concat(hero.getRace()));
                 prepareImage(image, this);
                 g2d.drawImage(image, hero.getX() * sq_size, hero.getY() * sq_size, sq_size, sq_size, this);
                 enemies.forEach(enemy -> {
-                    Image enemyImage = getToolkit().getImage(System.getProperty("user.dir").concat("/src/main/resources/").concat("human.jpg"));
+                    //рисует врага
+                    Image enemyImage = getToolkit().getImage(System.getProperty("user.dir").concat("/src/main/resources/enemies/").concat(enemy.getRace()));
                     prepareImage(enemyImage, this);
                     g2d.drawImage(enemyImage, enemy.getX() * sq_size, enemy.getY() * sq_size, sq_size, sq_size, this);
                 });
@@ -344,9 +345,8 @@ public class GuiCreateHeroView  implements View {
     }
 
     @Override
-    public void win() {
-        //todo: конкатинция строки с правильной картинкой
-        ImageIcon icon = new ImageIcon(System.getProperty("user.dir").concat("/src/main/resources/").concat("human.jpg"));
+    public void win(Hero hero) {
+        ImageIcon icon = new ImageIcon(System.getProperty("user.dir").concat("/src/main/resources/heroes/").concat(hero.getRace()));
         JOptionPane.showMessageDialog(frame, "You are win! Congratulation!",
                 "You are win! Congratulation!", JOptionPane.INFORMATION_MESSAGE, icon);
     }

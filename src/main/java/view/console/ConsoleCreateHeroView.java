@@ -104,7 +104,7 @@ public class ConsoleCreateHeroView implements View {
                             case "Tik":
                                 System.out.print('T');
                                 break;
-                            case "Jeckie":
+                            case "Jacky":
                                 System.out.print('J');
                                 break;
                         }
@@ -208,7 +208,7 @@ public class ConsoleCreateHeroView implements View {
     }
 
     @Override
-    public void win() {
+    public void win(Hero hero) {
         System.out.println("You are win! Congratulation!");
         System.out.println("█░█ ▄▀▀▄ █░░█ . ▄▀▄ █▀▄ █▀▀ . █░░░█ ▀█▀ █▄░█\n" +
                 "▀█▀ █░░█ █░░█ . █▄█ █▀▄ █▀▀ . █▄█▄█ ░█░ █▀██\n" +

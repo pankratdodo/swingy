@@ -23,7 +23,7 @@ public class EnemyFactory {
             case 3:
                 return createTik(enemy);
             case 4:
-                return createJeckie(enemy);
+                return createJacky(enemy);
             default:
                 throw new InvalidDataException("Invalid race", ErrorCode.INVALID_DATA_ERROR.getCode());
         }
@@ -57,40 +57,40 @@ public class EnemyFactory {
     private Enemy createMortis(Enemy enemy)
     {
         enemy.setRace("Mortis");
-        enemy.setAttack(3);
-        enemy.setDefence(20);
-        enemy.setActualHp(500);
-        enemy.setMaxHp(500);
+        enemy.setAttack(90);
+        enemy.setDefence(2);
+        enemy.setActualHp(300);
+        enemy.setMaxHp(300);
         return enemy;
     }
 
     private Enemy create8Bit(Enemy enemy)
     {
         enemy.setRace("8Bit");
-        enemy.setAttack(60);
-        enemy.setDefence(25);
-        enemy.setActualHp(500);
-        enemy.setMaxHp(500);
+        enemy.setAttack(110);
+        enemy.setDefence(3);
+        enemy.setActualHp(200);
+        enemy.setMaxHp(200);
         return enemy;
     }
 
     private Enemy createTik(Enemy enemy)
     {
         enemy.setRace("Tik");
-        enemy.setAttack(75);
+        enemy.setAttack(125);
         enemy.setDefence(0);
-        enemy.setActualHp(500);
-        enemy.setMaxHp(500);
+        enemy.setActualHp(250);
+        enemy.setMaxHp(250);
         return enemy;
     }
 
-    private Enemy createJeckie(Enemy enemy)
+    private Enemy createJacky(Enemy enemy)
     {
-        enemy.setRace("Jeckie");
-        enemy.setAttack(50);
-        enemy.setDefence(50);
-        enemy.setActualHp(500);
-        enemy.setMaxHp(500);
+        enemy.setRace("Jacky");
+        enemy.setAttack(100);
+        enemy.setDefence(5);
+        enemy.setActualHp(250);
+        enemy.setMaxHp(250);
         return enemy;
     }
 }

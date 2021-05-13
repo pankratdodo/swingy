@@ -79,7 +79,7 @@ public interface View {
     /**
      * Если игрок выиграл
      */
-    void win();
+    void win(Hero hero);
 
     /**
      * Печатает сообщение, что нельзя выйти за край карты

@@ -37,12 +37,12 @@ public class EnemyFactoryTest {
     }
 
     @Test
-    public void newEnemyJeckieTest()
+    public void newEnemyJackyTest()
     {
-        Enemy jeckie = factory.newEnemy(4, 39);
-        assertThat(jeckie.getRace()).isEqualTo("Jeckie");
-        assertThat(jeckie.getAttack()).isEqualTo(50);
-        assertThat(jeckie.getDefence()).isEqualTo(50);
+        Enemy jacky = factory.newEnemy(4, 39);
+        assertThat(jacky.getRace()).isEqualTo("Jacky");
+        assertThat(jacky.getAttack()).isEqualTo(50);
+        assertThat(jacky.getDefence()).isEqualTo(50);
     }
 
     @Test
