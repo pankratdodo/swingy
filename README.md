@@ -1,5 +1,5 @@
 # Swingy
-GUI programming in Java
+### GUI programming in Java
 ## Goals
 - First phase for hardcore hipsters that will be console based
 - Second phase for regular hipsters, that will also have a simple GUI for taking user
