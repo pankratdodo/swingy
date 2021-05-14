@@ -4,8 +4,8 @@
 - First phase for hardcore hipsters that will be console based
 - Second phase for regular hipsters, that will also have a simple GUI for taking user
 input.
-- Respect the Model-View-Controller design pattern.
-- Automated build with Maven.
+- Respect the `Model-View-Controller` design pattern. (Also using a `Builder` pattern.)
+- Automated build with `Maven`.
 - Annotation based user input validation.
 
 ## Mandatory part
