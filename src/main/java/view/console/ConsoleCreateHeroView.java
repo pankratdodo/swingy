@@ -156,10 +156,10 @@ public class ConsoleCreateHeroView implements View {
     @Override
     public boolean readyToFight(Hero hero, Enemy enemy) {
         while (true) {
-            System.out.println("Your hero is " + hero.getRace() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
-                    " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack());
-            System.out.println("Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
-                    " hp: " + enemy.getActualHp());
+            System.out.println("Your hero is " + hero.getRace() + ", attack: " + hero.getAttack() + ", defence: " + hero.getDefense() +
+                    ", hp: " + hero.getActualHp() + ", artefactPower: " + hero.getArtefactAttack());
+            System.out.println("Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + ", defence: " + enemy.getDefence() +
+                    ", hp: " + enemy.getActualHp());
             System.out.println("Do you wanna fight?\nIf you run away, you will take 50 points of damage\n Print 'y' to fight, 'n' to run");
             Scanner scanner = new Scanner(System.in);
             String key = scanner.nextLine();
@@ -209,10 +209,7 @@ public class ConsoleCreateHeroView implements View {
 
     @Override
     public void win(Hero hero) {
-        System.out.println("You are win! Congratulation!");
-        System.out.println("█░█ ▄▀▀▄ █░░█ . ▄▀▄ █▀▄ █▀▀ . █░░░█ ▀█▀ █▄░█\n" +
-                "▀█▀ █░░█ █░░█ . █▄█ █▀▄ █▀▀ . █▄█▄█ ░█░ █▀██\n" +
-                "░▀░ ░▀▀░ ░▀▀░ . ▀░▀ ▀░▀ ▀▀▀ . ▀▀░▀▀ ▀▀▀ ▀░░▀");
+        System.out.println("You are winner! Congratulation!");
     }
 
     @Override

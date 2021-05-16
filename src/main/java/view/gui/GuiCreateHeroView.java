@@ -297,9 +297,9 @@ public class GuiCreateHeroView  implements View {
 
     @Override
     public boolean readyToFight(Hero hero, Enemy enemy) {
-        int n = JOptionPane.showConfirmDialog(frame, "Your hero is " + hero.getRace() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() + "" +
-                "hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack() + "\n" + "Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + " defence: " + enemy.getDefence() +
-                " hp: " + enemy.getActualHp() + "\n" + "Do you wanna fight?\nIf you run away, you will take 50 points of damage\n",
+        int n = JOptionPane.showConfirmDialog(frame, "Your hero is " + hero.getRace() + ", attack: " + hero.getAttack() + ", defence: " + hero.getDefense() + "," +
+                "hp: " + hero.getActualHp() + ", artefactPower: " + hero.getArtefactAttack() + "\n" + "Your enemy is " + enemy.getRace() + ", attack: " + enemy.getAttack() + ", defence: " + enemy.getDefence() +
+                ", hp: " + enemy.getActualHp() + "\n" + "Do you wanna fight?\nIf you run away, you will take 50 points of damage\n",
                 "Do you wanna fight?", JOptionPane.YES_NO_OPTION);
         return n == 0;
     }
@@ -339,16 +339,16 @@ public class GuiCreateHeroView  implements View {
 
     @Override
     public void lvlUp(Hero hero) {
-        JOptionPane.showMessageDialog(frame, "Your hero is " + hero.getRace() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + " defence: " + hero.getDefense() +
-                        " hp: " + hero.getActualHp() + " artefactPower: " + hero.getArtefactAttack(),
+        JOptionPane.showMessageDialog(frame, "Your hero is " + hero.getRace() + ", lvl = "  + hero.getLevel() + ", attack: " + hero.getAttack() + ", defence: " + hero.getDefense() +
+                        ", hp: " + hero.getActualHp() + ", artefactPower: " + hero.getArtefactAttack(),
                 "Your hero is lvl up!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void win(Hero hero) {
         ImageIcon icon = new ImageIcon(System.getProperty("user.dir").concat("/src/main/resources/heroes/").concat(hero.getRace()));
-        JOptionPane.showMessageDialog(frame, "You are win! Congratulation!",
-                "You are win! Congratulation!", JOptionPane.INFORMATION_MESSAGE, icon);
+        JOptionPane.showMessageDialog(frame, "You are winner! Congratulation!",
+                "You are winner! Congratulation!", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 
     @Override
